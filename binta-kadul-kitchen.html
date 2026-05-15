@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binta Kadul's Kitchen – The Queen of Delicious Taste</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+img { max-width: 100%; display: block; }
+
+/* ── TOKENS ── */
+:root {
+  --gold:      #C9A84C;
+  --gold2:     #E8C96D;
+  --gold3:     #8B6914;
+  --gold-pale: rgba(201,168,76,.12);
+  --black:     #080808;
+  --black2:    #0f0f0f;
+  --black3:    #181818;
+  --black4:    #222;
+  --white:     #ffffff;
+  --cream:     #F5EDD6;
+  --muted:     rgba(245,237,214,.45);
+  --nav-h:     72px;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--black);
+  color: var(--cream);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GOLD GRADIENT TEXT ── */
+.gold-text {
+  background: linear-gradient(135deg, #C9A84C 0%, #F0D97A 45%, #A67C2E 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── SECTION UTILS ── */
+.section-label {
+  display: flex; align-items: center; gap: 14px;
+  font-size: .65rem; font-weight: 600; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px;
+}
+.section-label::before, .section-label::after {
+  content: ''; flex: 0 0 32px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.section-label::after { background: linear-gradient(90deg, var(--gold), transparent); }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-weight: 300; line-height: 1.05; color: var(--cream);
+  letter-spacing: .02em;
+}
+.section-header { margin-bottom: clamp(40px, 6vw, 64px); text-align: center; }
+.section-header .section-label { justify-content: center; }
+
+/* ════════════════════════
+   NAVBAR
+════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  background: rgba(8,8,8,.96);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,.18);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(20px,5%,80px); height: var(--nav-h);
+  max-width: 1440px; margin: 0 auto; gap: 16px;
+}
+
+/* Brand */
+.nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; flex-shrink: 0; }
+.nav-logo-img {
+  height: 52px; width: auto; display: block; flex-shrink: 0;
+  object-fit: contain;
+}
+.nav-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.nav-brand-name {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600;
+  letter-spacing: .06em; color: var(--cream);
+}
+.nav-brand-sub { font-size: .55rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+
+/* Desktop links */
+.nav-links { display: flex; gap: 36px; list-style: none; margin-left: auto; }
+.nav-links a {
+  color: rgba(245,237,214,.55); font-weight: 500; font-size: .72rem;
+  text-decoration: none; letter-spacing: .16em; text-transform: uppercase;
+  transition: color .25s; white-space: nowrap;
+  position: relative; padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px; background: var(--gold); transform: scaleX(0);
+  transition: transform .3s; transform-origin: center;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* Reserve CTA */
+.nav-cta {
+  background: transparent; color: var(--gold);
+  border: 1px solid var(--gold); padding: 9px 22px;
+  font-family: 'Montserrat', sans-serif; font-weight: 600;
+  font-size: .68rem; cursor: pointer; letter-spacing: .16em;
+  text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+  transition: background .25s, color .25s;
+}
+.nav-cta:hover { background: var(--gold); color: var(--black); }
+
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; cursor: pointer; background: none; border: none; padding: 6px; flex-shrink: 0;
+}
+.hamburger span {
+  display: block; height: 1px; background: var(--cream); border-radius: 0;
+  transition: transform .3s, opacity .25s, width .3s; transform-origin: center;
+}
+.hamburger span:nth-child(1) { width: 24px; }
+.hamburger span:nth-child(2) { width: 16px; }
+.hamburger span:nth-child(3) { width: 20px; }
+.hamburger.open span:nth-child(1) { width: 22px; transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { width: 22px; transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile drawer */
+.mobile-menu {
+  max-height: 0; overflow: hidden; background: var(--black2);
+  border-top: 1px solid rgba(201,168,76,.1);
+  transition: max-height .4s cubic-bezier(.4,0,.2,1);
+}
+.mobile-menu.open { max-height: 400px; }
+.mobile-menu ul { list-style: none; padding: 8px clamp(20px,5%,80px); }
+.mobile-menu ul li { border-bottom: 1px solid rgba(201,168,76,.07); }
+.mobile-menu ul li:last-child { border-bottom: none; }
+.mobile-menu ul li a {
+  display: block; padding: 15px 0;
+  color: rgba(245,237,214,.7); font-weight: 500; font-size: .8rem;
+  text-decoration: none; text-transform: uppercase; letter-spacing: .14em;
+  transition: color .2s;
+}
+.mobile-menu ul li a:hover { color: var(--gold); }
+.mob-cta-wrap { padding: 12px clamp(20px,5%,80px) 22px; }
+.mob-cta-wrap a {
+  display: block; border: 1px solid var(--gold); color: var(--gold);
+  text-align: center; padding: 14px; font-weight: 600;
+  letter-spacing: .16em; text-decoration: none; font-size: .72rem; text-transform: uppercase;
+  transition: background .25s, color .25s;
+}
+.mob-cta-wrap a:hover { background: var(--gold); color: var(--black); }
+
+/* ════════════════════════
+   HERO
+════════════════════════ */
+.hero {
+  min-height: 100svh;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  text-align: center;
+  padding: calc(var(--nav-h) + 60px) clamp(20px,8%,120px) 80px;
+  position: relative; overflow: hidden;
+}
+
+/* Radial glow */
+.hero-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
+  width: min(900px, 130vw); height: min(900px, 130vw);
+  background: radial-gradient(ellipse, rgba(201,168,76,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Decorative corner lines */
+.hero-corner {
+  position: absolute; width: 60px; height: 60px; pointer-events: none;
+}
+.hero-corner.tl { top: 100px; left: clamp(20px,4%,60px); border-top: 1px solid rgba(201,168,76,.3); border-left: 1px solid rgba(201,168,76,.3); }
+.hero-corner.tr { top: 100px; right: clamp(20px,4%,60px); border-top: 1px solid rgba(201,168,76,.3); border-right: 1px solid rgba(201,168,76,.3); }
+.hero-corner.bl { bottom: 80px; left: clamp(20px,4%,60px); border-bottom: 1px solid rgba(201,168,76,.3); border-left: 1px solid rgba(201,168,76,.3); }
+.hero-corner.br { bottom: 80px; right: clamp(20px,4%,60px); border-bottom: 1px solid rgba(201,168,76,.3); border-right: 1px solid rgba(201,168,76,.3); }
+
+.hero-inner { position: relative; z-index: 2; max-width: 860px; width: 100%; }
+
+.hero-eyebrow {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  font-size: clamp(.58rem,.8vw,.68rem); font-weight: 600; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: clamp(28px,4vw,48px);
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; flex: 0 0 clamp(20px,4vw,48px); height: 1px; background: var(--gold); opacity: .5;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.8rem, 12vw, 10rem);
+  font-weight: 300; line-height: .92; letter-spacing: .01em; color: var(--cream);
+}
+.hero-title .italic { font-style: italic; }
+.hero-title .outlined {
+  -webkit-text-stroke: 1px rgba(201,168,76,.5); color: transparent;
+}
+
+.hero-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: clamp(24px,4vw,40px) auto;
+  max-width: 320px;
+}
+.hero-divider-line { flex: 1; height: 1px; background: rgba(201,168,76,.25); }
+.hero-divider-diamond {
+  width: 6px; height: 6px; background: var(--gold);
+  transform: rotate(45deg); flex-shrink: 0;
+}
+
+.hero-sub {
+  font-size: clamp(.78rem,1.5vw,.95rem); font-weight: 300;
+  color: var(--muted); letter-spacing: .14em; text-transform: uppercase;
+  line-height: 2;
+}
+.hero-sub em { color: var(--gold); font-style: normal; }
+
+.hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: clamp(32px,5vw,52px); }
+
+.btn-gold {
+  background: linear-gradient(135deg, #C9A84C 0%, #E8C96D 50%, #A67C2E 100%);
+  color: var(--black); border: none; padding: clamp(13px,2vw,16px) clamp(28px,4vw,44px);
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: clamp(.72rem,1vw,.82rem); cursor: pointer;
+  text-decoration: none; display: inline-block;
+  letter-spacing: .14em; text-transform: uppercase;
+  transition: opacity .25s, transform .2s; position: relative; overflow: hidden;
+}
+.btn-gold::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,.15); opacity: 0; transition: opacity .2s;
+}
+.btn-gold:hover { transform: translateY(-2px); }
+.btn-gold:hover::after { opacity: 1; }
+
+.btn-ghost {
+  background: transparent; color: var(--cream);
+  border: 1px solid rgba(245,237,214,.25);
+  padding: clamp(12px,2vw,15px) clamp(26px,4vw,42px);
+  font-family: 'Montserrat', sans-serif; font-weight: 500;
+  font-size: clamp(.72rem,1vw,.82rem); cursor: pointer;
+  text-decoration: none; display: inline-block;
+  letter-spacing: .14em; text-transform: uppercase;
+  transition: border-color .25s, color .25s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Hero stats */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin-top: clamp(48px,7vw,80px);
+  border-top: 1px solid rgba(201,168,76,.15);
+  width: 100%;
+}
+.hero-stat { padding: clamp(18px,2.5vw,26px) 10px; text-align: center; border-right: 1px solid rgba(201,168,76,.1); }
+.hero-stat:last-child { border-right: none; }
+.hero-stat .num {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,4vw,3rem);
+  font-weight: 300; line-height: 1; display: block;
+  background: linear-gradient(135deg, #C9A84C, #F0D97A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-stat .lbl { font-size: clamp(.52rem,.7vw,.65rem); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,237,214,.3); margin-top: 5px; display: block; }
+
+/* ════════════════════════
+   MARQUEE STRIP
+════════════════════════ */
+.marquee-strip {
+  background: var(--gold);
+  overflow: hidden; padding: 14px 0; white-space: nowrap;
+}
+.marquee-inner { display: inline-flex; gap: 0; animation: marquee 28s linear infinite; }
+.marquee-item {
+  display: inline-flex; align-items: center; gap: 28px;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem,2vw,1.3rem);
+  font-weight: 600; letter-spacing: .08em; color: var(--black);
+  padding: 0 32px; text-transform: uppercase;
+}
+.marquee-diamond { width: 5px; height: 5px; background: var(--black); transform: rotate(45deg); opacity: .4; flex-shrink: 0; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ════════════════════════
+   CATEGORY PILLS
+════════════════════════ */
+.categories-wrap { background: var(--black2); padding: clamp(28px,4vw,44px) 0; border-bottom: 1px solid rgba(201,168,76,.1); }
+.cat-row {
+  display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 0 clamp(20px,5%,80px) 4px; scrollbar-width: none;
+  max-width: 1440px; margin: 0 auto;
+}
+.cat-row::-webkit-scrollbar { display: none; }
+.cat-pill {
+  flex-shrink: 0; background: transparent;
+  border: 1px solid rgba(201,168,76,.2);
+  padding: clamp(9px,1.5vw,12px) clamp(16px,2vw,24px);
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: clamp(.64rem,.82vw,.74rem);
+  color: rgba(245,237,214,.45); letter-spacing: .12em;
+  text-transform: uppercase; transition: all .25s; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.cat-pill:hover, .cat-pill.active {
+  border-color: var(--gold); color: var(--gold);
+  background: var(--gold-pale);
+}
+.cat-pill .cat-emoji { font-size: .95rem; }
+
+/* ════════════════════════
+   MENU
+════════════════════════ */
+.menu-outer { background: var(--black); padding: clamp(60px,8vw,100px) clamp(20px,5%,80px); }
+.menu-inner { max-width: 1440px; margin: 0 auto; }
+
+.menu-wrap {
+  background: var(--black2);
+  border: 1px solid rgba(201,168,76,.12);
+  padding: clamp(28px,4vw,56px) clamp(22px,4vw,52px);
+}
+.menu-category-block { margin-bottom: clamp(36px,5vw,56px); }
+.menu-category-block:last-child { margin-bottom: 0; }
+
+.menu-cat-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem,2.5vw,1.7rem); font-weight: 400;
+  letter-spacing: .1em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 16px;
+  padding-bottom: 14px; border-bottom: 1px solid rgba(201,168,76,.15); margin-bottom: 0;
+  background: linear-gradient(135deg, #C9A84C, #F0D97A, #A67C2E);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.cat-line { flex: 1; height: 1px; background: rgba(201,168,76,.1); }
+
+/* Sub-heading for Africa Dish days */
+.menu-day {
+  font-size: clamp(.62rem,.78vw,.7rem); font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); opacity: .7;
+  margin: 18px 0 4px; padding-top: 6px;
+}
+
+.menu-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: clamp(12px,1.8vw,15px) 0;
+  border-bottom: 1px solid rgba(201,168,76,.05);
+  gap: clamp(12px,2vw,24px); transition: padding-left .2s;
+  position: relative;
+}
+.menu-row::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 0; height: 1px; background: var(--gold); transition: width .2s; opacity: .4;
+}
+.menu-row:hover::before { width: 12px; }
+.menu-row:hover { padding-left: 18px; }
+.menu-row:last-child { border-bottom: none; }
+
+.menu-row-left { flex: 1; min-width: 0; }
+.menu-row-left h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(.95rem,1.4vw,1.1rem); font-weight: 400; color: var(--cream);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; line-height: 1.4;
+  letter-spacing: .03em;
+}
+.menu-row-right { display: flex; align-items: center; gap: clamp(10px,1.5vw,18px); flex-shrink: 0; }
+
+.price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem,1.6vw,1.25rem); font-weight: 600;
+  background: linear-gradient(135deg, #C9A84C, #F0D97A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  white-space: nowrap; letter-spacing: .02em;
+}
+.badge {
+  font-size: .56rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  padding: 2px 8px; border-radius: 0; white-space: nowrap;
+}
+.badge-sig { border: 1px solid var(--gold); color: var(--gold); background: transparent; }
+.badge-hot { border: 1px solid #c06000; color: #d4782a; background: transparent; }
+.badge-new { border: 1px solid #2e7d4f; color: #4caf7d; background: transparent; }
+
+.add-btn {
+  background: transparent; color: var(--gold);
+  border: 1px solid rgba(201,168,76,.3);
+  width: clamp(28px,3.5vw,32px); height: clamp(28px,3.5vw,32px);
+  font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background .2s, border-color .2s, color .2s, transform .15s;
+  -webkit-tap-highlight-color: transparent; font-weight: 300;
+}
+.add-btn:hover  { background: var(--gold); color: var(--black); border-color: var(--gold); transform: scale(1.08); }
+.add-btn:active { transform: scale(.93); }
+
+/* ════════════════════════
+   WHY US
+════════════════════════ */
+.why-section { background: var(--black2); padding: clamp(70px,9vw,110px) clamp(20px,5%,80px); border-top: 1px solid rgba(201,168,76,.08); }
+.why-inner { max-width: 1440px; margin: 0 auto; }
+.why-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,200px),1fr));
+  gap: clamp(1px,0.1vw,1px); border: 1px solid rgba(201,168,76,.1);
+}
+.why-card {
+  padding: clamp(32px,4vw,48px) clamp(24px,3vw,36px);
+  border-right: 1px solid rgba(201,168,76,.1);
+  transition: background .3s;
+}
+.why-card:last-child { border-right: none; }
+.why-card:hover { background: rgba(201,168,76,.04); }
+.why-icon { font-size: clamp(1.5rem,2.5vw,2rem); display: block; margin-bottom: 18px; }
+.why-card h3 {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem,1.8vw,1.4rem);
+  font-weight: 400; margin-bottom: 12px; color: var(--cream); letter-spacing: .04em;
+}
+.why-card p { color: var(--muted); font-size: clamp(.75rem,1vw,.85rem); line-height: 1.8; font-weight: 300; }
+
+/* ════════════════════════
+   LOCATION
+════════════════════════ */
+.location-section { background: var(--black); padding: clamp(70px,9vw,110px) clamp(20px,5%,80px); }
+.loc-inner { max-width: 1440px; margin: 0 auto; }
+.loc-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,240px),1fr));
+  gap: clamp(14px,2vw,24px);
+}
+.loc-card {
+  background: var(--black2); border: 1px solid rgba(201,168,76,.12);
+  padding: clamp(28px,4vw,44px) clamp(22px,3vw,36px);
+  position: relative; overflow: hidden;
+}
+.loc-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .5;
+}
+.loc-icon { font-size: clamp(1.4rem,2vw,1.7rem); display: block; margin-bottom: 16px; }
+.loc-card h3 {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1.05rem,1.5vw,1.25rem);
+  font-weight: 400; margin-bottom: 12px; color: var(--cream); letter-spacing: .04em;
+}
+.loc-card p { color: var(--muted); font-size: clamp(.78rem,1vw,.88rem); line-height: 1.8; font-weight: 300; }
+.loc-card .hours { color: rgba(201,168,76,.7); margin-top: 12px; font-size: .78rem; font-weight: 500; letter-spacing: .1em; }
+.loc-phone { color: var(--gold); font-weight: 600; font-size: clamp(.82rem,1.1vw,.92rem); margin-top: 8px; display: block; letter-spacing: .06em; }
+
+/* ════════════════════════
+   FOOTER
+════════════════════════ */
+footer {
+  background: var(--black2); border-top: 1px solid rgba(201,168,76,.12);
+  text-align: center; padding: clamp(48px,6vw,72px) clamp(20px,5%,80px);
+}
+.footer-divider { display: flex; align-items: center; gap: 16px; max-width: 240px; margin: 0 auto 28px; }
+.footer-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.footer-divider-line:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.footer-divider-diamond { width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem,4vw,2.6rem); font-weight: 300; letter-spacing: .12em;
+  background: linear-gradient(135deg, #C9A84C, #F0D97A, #A67C2E);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 6px;
+}
+.footer-tag { font-family: 'Cormorant Garamond', serif; font-style: italic; color: rgba(201,168,76,.5); font-size: clamp(.85rem,1.5vw,1rem); letter-spacing: .06em; margin-bottom: 24px; }
+footer p { color: rgba(245,237,214,.22); font-size: clamp(.68rem,.9vw,.76rem); line-height: 2; font-weight: 300; letter-spacing: .06em; }
+
+/* ════════════════════════
+   RESPONSIVE
+════════════════════════ */
+@media (max-width: 900px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .hero-stats { grid-template-columns: repeat(2,1fr); }
+  .hero-stat:nth-child(2) { border-right: none; }
+  .hero-stat:nth-child(3),
+  .hero-stat:nth-child(4) { border-top: 1px solid rgba(201,168,76,.1); }
+  .hero-stat:nth-child(4) { border-right: none; }
+  .hero-corner { display: none; }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-card:nth-child(even) { border-right: none; }
+  .why-card:nth-child(n+3) { border-top: 1px solid rgba(201,168,76,.1); }
+}
+
+@media (max-width: 600px) {
+  :root { --nav-h: 62px; }
+  .nav-brand-sub { display: none; }
+  .nav-brand-name { font-size: .95rem; }
+  .nav-monogram { width: 36px; height: 36px; }
+  .hero-title { font-size: clamp(3.4rem, 16vw, 6rem); }
+  .btn-gold, .btn-ghost { width: 100%; text-align: center; }
+  .menu-row-left h3 { font-size: .92rem; }
+  .menu-wrap { padding: 20px 16px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .why-card { border-right: none !important; border-top: 1px solid rgba(201,168,76,.1) !important; }
+  .why-card:first-child { border-top: none !important; }
+  .loc-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+  .hero-title { font-size: 3rem; }
+  .cat-pill { padding: 8px 12px; font-size: .62rem; }
+}
+
+@media (min-width: 1200px) {
+  .nav-links { gap: 44px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <!-- ✏️ LOGO: replace "YOUR-LOGO-FILE.png" with your actual logo filename -->
+      <img src="logo.png" alt="Binta Kadul's Kitchen Logo" class="nav-logo-img">
+      <div class="nav-brand-text">
+        <span class="nav-brand-name">Binta Kadul's Kitchen</span>
+        <span class="nav-brand-sub">The Queen of Delicious Taste</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#location">Visit Us</a></li>
+    </ul>
+
+    <button class="nav-cta" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">View Menu</button>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#menu"     onclick="closeMobileMenu()">Menu</a></li>
+      <li><a href="#about"    onclick="closeMobileMenu()">Our Story</a></li>
+      <li><a href="#location" onclick="closeMobileMenu()">Visit Us</a></li>
+    </ul>
+    <div class="mob-cta-wrap"><a href="#menu" onclick="closeMobileMenu()">View Menu</a></div>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-corner tl"></div>
+  <div class="hero-corner tr"></div>
+  <div class="hero-corner bl"></div>
+  <div class="hero-corner br"></div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Est. Freetown, Sierra Leone</div>
+
+    <h1 class="hero-title">
+      <span class="italic">Binta</span><br>
+      <span class="outlined">Kadul's</span><br>
+      Kitchen
+    </h1>
+
+    <div class="hero-divider">
+      <div class="hero-divider-line"></div>
+      <div class="hero-divider-diamond"></div>
+      <div class="hero-divider-line"></div>
+    </div>
+
+    <p class="hero-sub">
+      Breakfast &nbsp;·&nbsp; Appetizers &nbsp;·&nbsp; Shawarma &nbsp;·&nbsp; <em>Africa Dish</em> &nbsp;·&nbsp; Sandwiches
+    </p>
+
+    <div class="hero-btns">
+      <a href="#menu"     class="btn-gold">Explore Menu</a>
+      <a href="#location" class="btn-ghost">Find Us</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">40+</span><span class="lbl">Dishes</span></div>
+      <div class="hero-stat"><span class="num">NLe 50</span><span class="lbl">Starting From</span></div>
+      <div class="hero-stat"><span class="num">Daily</span><span class="lbl">Africa Dish</span></div>
+      <div class="hero-stat"><span class="num">BKK</span><span class="lbl">Since Day One</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-inner">
+    <!-- duplicated for seamless loop -->
+    <span class="marquee-item">Breakfast <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Appetizers <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Shawarma <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Africa Dish <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Sandwiches <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">The Queen of Delicious Taste <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Breakfast <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Appetizers <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Shawarma <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Africa Dish <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">Sandwiches <span class="marquee-diamond"></span></span>
+    <span class="marquee-item">The Queen of Delicious Taste <span class="marquee-diamond"></span></span>
+  </div>
+</div>
+
+<!-- ══ CATEGORY PILLS ══ -->
+<div class="categories-wrap">
+  <div class="cat-row">
+    <div class="cat-pill active" onclick="scrollToCategory('breakfast',this)">   <span class="cat-emoji">🌅</span>Breakfast</div>
+    <div class="cat-pill"        onclick="scrollToCategory('appetizer',this)">   <span class="cat-emoji">🍢</span>Appetizers</div>
+    <div class="cat-pill"        onclick="scrollToCategory('sandwich',this)">    <span class="cat-emoji">🥪</span>Sandwiches</div>
+    <div class="cat-pill"        onclick="scrollToCategory('shawarma',this)">    <span class="cat-emoji">🌯</span>Shawarma</div>
+    <div class="cat-pill"        onclick="scrollToCategory('africa',this)">      <span class="cat-emoji">🍲</span>Africa Dish</div>
+  </div>
+</div>
+
+<!-- ══ MENU ══ -->
+<div class="menu-outer" id="menu">
+  <div class="menu-inner">
+    <div class="section-header">
+      <div class="section-label">What We Serve</div>
+      <h2 class="section-title">Our Full Menu</h2>
+    </div>
+
+    <div class="menu-wrap">
+
+      <!-- BREAKFAST -->
+      <div class="menu-category-block" data-cat="breakfast">
+        <h3 class="menu-cat-heading">🌅 Breakfast <span class="cat-line"></span></h3>
+        <div class="menu-row"><div class="menu-row-left"><h3>Africa Omelet</h3></div><div class="menu-row-right"><span class="price">NLe 50</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Vegetable Omelet</h3></div><div class="menu-row-right"><span class="price">NLe 75</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Shrimps Omelet <span class="badge badge-sig">Signature</span></h3></div><div class="menu-row-right"><span class="price">NLe 135</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Fried Egg with Meat</h3></div><div class="menu-row-right"><span class="price">NLe 125</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Hot Dog Omelet <span class="badge badge-hot">🌶 Spicy</span></h3></div><div class="menu-row-right"><span class="price">NLe 105</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Chilly Scramble Egg <span class="badge badge-hot">🌶 Hot</span></h3></div><div class="menu-row-right"><span class="price">NLe 115</span><button class="add-btn">+</button></div></div>
+      </div>
+
+      <!-- APPETIZER -->
+      <div class="menu-category-block" data-cat="appetizer">
+        <h3 class="menu-cat-heading">🍢 Appetizers <span class="cat-line"></span></h3>
+        <div class="menu-row"><div class="menu-row-left"><h3>Plain Hummus</h3></div><div class="menu-row-right"><span class="price">NLe 80</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Hummus with Meat <span class="badge badge-sig">Chef's Pick</span></h3></div><div class="menu-row-right"><span class="price">NLe 115</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Fish Finger</h3></div><div class="menu-row-right"><span class="price">NLe 115</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Shrimps Cocktail <span class="badge badge-sig">Signature</span></h3></div><div class="menu-row-right"><span class="price">NLe 135</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Kebbe 4 pcs</h3></div><div class="menu-row-right"><span class="price">NLe 105</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Spicy Wings <span class="badge badge-hot">🌶 Hot</span></h3></div><div class="menu-row-right"><span class="price">NLe 85</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Crispy Wing</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Grilled Wing</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Goat Pepper Soup</h3></div><div class="menu-row-right"><span class="price">NLe 145</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>African Pepper Soup</h3></div><div class="menu-row-right"><span class="price">NLe 140</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Chicken Soup</h3></div><div class="menu-row-right"><span class="price">NLe 135</span><button class="add-btn">+</button></div></div>
+      </div>
+
+      <!-- SANDWICH -->
+      <div class="menu-category-block" data-cat="sandwich">
+        <h3 class="menu-cat-heading">🥪 Sandwiches <span class="cat-line"></span></h3>
+        <div class="menu-row"><div class="menu-row-left"><h3>Shrimp Sandwich <span class="badge badge-sig">Signature</span></h3></div><div class="menu-row-right"><span class="price">NLe 145</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Roast Meat Sandwich</h3></div><div class="menu-row-right"><span class="price">NLe 165</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Chicken Sandwich</h3></div><div class="menu-row-right"><span class="price">NLe 130</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Club Sandwich <span class="badge badge-sig">Popular</span></h3></div><div class="menu-row-right"><span class="price">NLe 140</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Tuna Malt Sandwich</h3></div><div class="menu-row-right"><span class="price">NLe 130</span><button class="add-btn">+</button></div></div>
+      </div>
+
+      <!-- SHAWARMA -->
+      <div class="menu-category-block" data-cat="shawarma">
+        <h3 class="menu-cat-heading">🌯 Shawarma <span class="cat-line"></span></h3>
+        <div class="menu-row"><div class="menu-row-left"><h3>Chicken Shawarma</h3></div><div class="menu-row-right"><span class="price">NLe 75</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Beef Shawarma</h3></div><div class="menu-row-right"><span class="price">NLe 85</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Mixed Shawarma <span class="badge badge-sig">Popular</span></h3></div><div class="menu-row-right"><span class="price">NLe 95</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Vegetable Shawarma</h3></div><div class="menu-row-right"><span class="price">NLe 75</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Fish Shawarma <span class="badge badge-new">Special</span></h3></div><div class="menu-row-right"><span class="price">NLe 95</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Liver Shawarma</h3></div><div class="menu-row-right"><span class="price">NLe 85</span><button class="add-btn">+</button></div></div>
+      </div>
+
+      <!-- AFRICA DISH -->
+      <div class="menu-category-block" data-cat="africa">
+        <h3 class="menu-cat-heading">🍲 Africa Dish <span class="cat-line"></span></h3>
+
+        <p class="menu-day">Monday</p>
+        <div class="menu-row"><div class="menu-row-left"><h3>Cassava Leaf Oil &amp; Beans Oil</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Fried Soup</h3></div><div class="menu-row-right"><span class="price">NLe 100</span><button class="add-btn">+</button></div></div>
+
+        <p class="menu-day">Tuesday</p>
+        <div class="menu-row"><div class="menu-row-left"><h3>Krain-Krain &amp; Beans</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Groundnut Soup</h3></div><div class="menu-row-right"><span class="price">NLe 100</span><button class="add-btn">+</button></div></div>
+
+        <p class="menu-day">Wednesday</p>
+        <div class="menu-row"><div class="menu-row-left"><h3>Cassava Leaf &amp; Beans</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Stew Green</h3></div><div class="menu-row-right"><span class="price">NLe 100</span><button class="add-btn">+</button></div></div>
+
+        <p class="menu-day">Thursday</p>
+        <div class="menu-row"><div class="menu-row-left"><h3>Potato Leaf &amp; Beans</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Fried Soup</h3></div><div class="menu-row-right"><span class="price">NLe 100</span><button class="add-btn">+</button></div></div>
+
+        <p class="menu-day">Friday</p>
+        <div class="menu-row"><div class="menu-row-left"><h3>Cassava Leaf &amp; Beans</h3></div><div class="menu-row-right"><span class="price">NLe 70</span><button class="add-btn">+</button></div></div>
+        <div class="menu-row"><div class="menu-row-left"><h3>Groundnut Soup</h3></div><div class="menu-row-right"><span class="price">NLe 100</span><button class="add-btn">+</button></div></div>
+      </div>
+
+    </div><!-- /.menu-wrap -->
+  </div>
+</div>
+
+<!-- ══ WHY US ══ -->
+<section class="why-section" id="about">
+  <div class="why-inner">
+    <div class="section-header">
+      <div class="section-label">Our Philosophy</div>
+      <h2 class="section-title">Why Binta Kadul's</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><span class="why-icon">👑</span><h3>The Queen's Touch</h3><p>Every dish carries the care and craft of a kitchen run with passion. Binta Kadul's isn't just food — it's a tradition of excellence.</p></div>
+      <div class="why-card"><span class="why-icon">🌍</span><h3>Authentic Flavours</h3><p>From hearty daily Africa Dishes to perfectly spiced shawarmas — rooted in tradition, elevated with love.</p></div>
+      <div class="why-card"><span class="why-icon">🍳</span><h3>Fresh Every Day</h3><p>Our Africa Dish menu rotates daily. You'll always find something new, seasonal, and made from scratch that morning.</p></div>
+      <div class="why-card"><span class="why-icon">✨</span><h3>A Dining Experience</h3><p>We believe great food deserves great presentation. Binta Kadul's is where flavour meets refinement in Freetown.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LOCATION ══ -->
+<div class="location-section" id="location">
+  <div class="loc-inner">
+    <div class="section-header">
+      <div class="section-label">Come Find Us</div>
+      <h2 class="section-title">Visit the Kitchen</h2>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-card">
+        <span class="loc-icon">📍</span>
+        <h3>Location</h3>
+        <p>Freetown, Sierra Leone</p>
+        <p class="hours">⏰ Open Daily — Breakfast through Dinner</p>
+      </div>
+      <div class="loc-card">
+        <span class="loc-icon">📞</span>
+        <h3>Reservations &amp; Orders</h3>
+        <p>Call or message us directly to place your order or make a reservation at the kitchen.</p>
+        <span class="loc-phone">Contact us for details</span>
+      </div>
+      <div class="loc-card">
+        <span class="loc-icon">🍽️</span>
+        <h3>Today's Africa Dish</h3>
+        <p>Our daily Africa Dish menu changes every day — come in or call ahead to find out what's cooking fresh today.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-divider">
+    <div class="footer-divider-line"></div>
+    <div class="footer-divider-diamond"></div>
+    <div class="footer-divider-line"></div>
+  </div>
+  <div class="footer-logo">Binta Kadul's Kitchen</div>
+  <div class="footer-tag">The Queen of Delicious Taste</div>
+  <p>Freetown, Sierra Leone</p>
+  <p style="margin-top:10px;">© 2025 Binta Kadul's Kitchen. All rights reserved.</p>
+</footer>
+
+<script>
+  /* ── Hamburger ── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', function() {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) closeMobileMenu();
+  });
+
+  /* ── Category scroll ── */
+  function scrollToCategory(cat, el) {
+    document.querySelectorAll('.cat-pill').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    const target = document.querySelector('.menu-category-block[data-cat="' + cat + '"]');
+    if (target) {
+      const navH = document.querySelector('nav').offsetHeight;
+      const catH = document.querySelector('.categories-wrap').offsetHeight;
+      const top  = target.getBoundingClientRect().top + window.scrollY - navH - catH - 16;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  /* ── Active pill on scroll ── */
+  const blocks = document.querySelectorAll('.menu-category-block[data-cat]');
+  const pills  = document.querySelectorAll('.cat-pill');
+
+  function updateActivePill() {
+    const navH = document.querySelector('nav').offsetHeight;
+    const catH = document.querySelector('.categories-wrap').offsetHeight;
+    const threshold = navH + catH + 40;
+    let active = null;
+    blocks.forEach(block => {
+      if (block.getBoundingClientRect().top <= threshold) active = block.dataset.cat;
+    });
+    if (active) {
+      pills.forEach(p => {
+        const match = p.getAttribute('onclick') && p.getAttribute('onclick').includes("'" + active + "'");
+        p.classList.toggle('active', !!match);
+      });
+    }
+  }
+  window.addEventListener('scroll', updateActivePill, { passive: true });
+</script>
+</body>
+</html>
